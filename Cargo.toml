@@ -7,3 +7,11 @@ license = "MIT"
 
 [dependencies]
 automod = "1.0.14"
+num-bigint = "0.4.4"
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[[bench]]
+name = "benchmark"
+harness = false
