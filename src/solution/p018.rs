@@ -9,6 +9,7 @@ struct Node {
 
 pub fn solution() -> String {
     let mut queue = BinaryHeap::new();
+    let mut visited = vec![0; NUMBERS.len()];
     let mut max = 0;
     queue.push(Node {
         len: NUMBERS[0],
@@ -17,10 +18,12 @@ pub fn solution() -> String {
     });
 
     while let Some(Node { len, y, x }) = queue.pop() {
-        if len + 99 * (HEIGHT as u32 - y as u32) < max {
+        let index = (y as usize) * (y as usize + 1) / 2 + x as usize;
+        if len < visited[index] || len + 99 * (HEIGHT as u32 - y as u32) < max {
             continue;
         }
 
+        visited[index] = len;
         if y < HEIGHT as u8 - 1 {
             queue.push(Node {
                 len: len + NUMBERS[(y as usize + 1) * (y as usize + 2) / 2 + x as usize],
