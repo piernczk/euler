@@ -7,18 +7,15 @@ pub fn solution() -> String {
     let mut set_sum = 0;
     let mut sums: BitVec<usize, Lsb0> = BitVec::new();
     let mut highest = Vec::new();
-    let mut lowest = Vec::new();
     let mut subset = Vec::new();
     'sets: for line in data.lines() {
-        let set: Vec<u32> = line.split(',').filter_map(|s| s.parse().ok()).collect();
+        let mut set: Vec<u32> = line.split(',').filter_map(|s| s.parse().ok()).collect();
+        set.sort();
         let sum: u32 = set.iter().sum();
 
         sums.fill(false);
-        highest.fill(0);
-        lowest.fill(u32::MAX);
         sums.resize(sum as usize, false);
-        highest.resize(set.len(), 0);
-        lowest.resize(set.len(), u32::MAX);
+        highest.clear();
 
         for size in 1..=set.len() {
             subset.resize(size, 0);
@@ -26,7 +23,8 @@ pub fn solution() -> String {
                 *v = i;
             }
 
-            'subsets: loop {
+            let mut first = true;
+            highest.push('subsets: loop {
                 let mut subsum = 0;
                 for i in &subset {
                     subsum += set[*i];
@@ -38,20 +36,12 @@ pub fn solution() -> String {
                 }
                 sums.set(subsum as usize - 1, true);
 
-                if subsum < lowest[size - 1] {
-                    if highest[..size - 1].iter().any(|&l| l > subsum) {
-                        // a smaller subset has a bigger sum than this one
-                        continue 'sets;
-                    }
-                    lowest[size - 1] = subsum;
+                if first && highest.iter().any(|&l| l > subsum) {
+                    // a smaller subset has a bigger sum than this one
+                    continue 'sets;
                 }
 
-                if subsum > highest[size - 1] {
-                    // we don't check bigger subsets like above as we haven't
-                    // reached them yet
-                    highest[size - 1] = subsum;
-                }
-
+                first = false;
                 for i in 0..size - 1 {
                     if subset[i] + 1 < subset[i + 1] {
                         subset[i] += 1;
@@ -68,9 +58,9 @@ pub fn solution() -> String {
                     }
                     subset[size - 1] += 1;
                 } else {
-                    break;
+                    break subsum;
                 }
-            }
+            });
         }
 
         set_sum += sum;
