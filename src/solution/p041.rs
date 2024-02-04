@@ -62,7 +62,6 @@ impl Digits {
                 self.mov(j, i);
                 let value = self.value();
                 if until(value) {
-                    println!("{}", value);
                     return Some(value);
                 }
                 if let Some(value) = self.permute(i - 1, until) {

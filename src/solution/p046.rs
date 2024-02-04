@@ -13,13 +13,11 @@ pub fn solution() -> String {
         }
 
         pi += new_pi.unwrap();
-        // println!("{} {:?}", n, &p[..pi]);
         if n == p[pi - 1] {
             continue;
         }
 
         for p in &p[..pi] {
-            // println!("{} {}", n, p);
             if is_perfect_square((n - p) / 2) {
                 continue 'main;
             }
