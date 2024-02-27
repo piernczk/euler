@@ -44,6 +44,7 @@ pub fn solution() -> String {
         }
 
         if y < 79 && distances[down] > distance + matrix[down] {
+            distances[down] = distance + matrix[down];
             unvisited.push(Point {
                 distance: distance + matrix[down],
                 x,

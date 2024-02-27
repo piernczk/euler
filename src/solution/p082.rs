@@ -10,7 +10,7 @@ struct Point {
 }
 
 pub fn solution() -> String {
-    let data = get_data(82).unwrap();
+    let data = get_data(81).unwrap();
     let mut matrix = Vec::with_capacity(80 * 80);
     for line in data.lines() {
         for s in line.split(',') {
@@ -46,6 +46,7 @@ pub fn solution() -> String {
         }
 
         if x > 0 && y < 79 && distances[down] > distance + matrix[down] {
+            distances[down] = distance + matrix[down];
             unvisited.push(Point {
                 distance: distance + matrix[down],
                 x,
