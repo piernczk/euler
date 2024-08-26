@@ -4,7 +4,7 @@ use solution::SOLUTIONS;
 use std::{fs::File, io::Read, path::Path};
 
 pub fn get_solution(number: usize) -> Option<&'static (dyn Fn() -> String + Send + 'static)> {
-    unsafe { SOLUTIONS.get(number - 1).and_then(|p| Some(&*(*p)?)) }
+    SOLUTIONS[number - 1]
 }
 
 pub fn get_data(number: usize) -> Option<String> {

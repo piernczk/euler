@@ -36,7 +36,7 @@ fn main() {
     let out_file = File::create(out_path).unwrap();
     let mut out = BufWriter::new(out_file);
 
-    out.write_all(b"pub const SOLUTIONS: [Option<*const (dyn Fn() -> String + Send + 'static)>; ")
+    out.write_all(b"pub const SOLUTIONS: [Option<&(dyn Fn() -> String + Send + 'static)>; ")
         .unwrap();
     out.write_all(max.as_bytes()).unwrap();
     out.write_all(b"] = [").unwrap();
@@ -51,7 +51,7 @@ fn main() {
 
         out.write_all(b"Some(&p").unwrap();
         out.write_all(number.as_bytes()).unwrap();
-        out.write_all(b"::solution as *const _),").unwrap();
+        out.write_all(b"::solution),").unwrap();
     }
 
     out.write_all(b"];").unwrap();
